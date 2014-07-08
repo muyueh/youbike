@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stations</title>
+
+<link href='http://fonts.googleapis.com/css?family=Exo+2:300' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="../d3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../prelude-browser-min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../colorbrewer.v1.min.js" charset="utf-8"></script>
+<!-- <script type="text/javascript" src="../crossfilter.min.js"></script> -->
+<!-- <script type="text/javascript" src="../dc.js"></script> -->
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<!-- <link rel="stylesheet" type="text/css" href="../dc.css"/> -->
+
+<style type="text/css">
+
+</style>
+
+</head>
+<body>
+<script type="text/javascript">
+  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  // ga('create', 'UA-36523378-1', 'muyueh.com');
+  // ga('send', 'pageview');
+</script>
+
+<style type="text/css">
+body {
+	font-family: 'Exo 2', sans-serif;
+	color: white;
+}
+.SvgOverlay svg {
+	position: absolute;
+	top: -4000px;
+	left: -4000px;
+	width: 8000px;
+	height: 8000px;
+}
+.rightbar {
+	position: fixed;
+	right: 0px;
+	top: 0px;
+	width: 400px;
+	height: 100%;
+	/*background-color: rgba(255, 255, 255, 0.57);*/
+	background-color: rgba(0, 0, 0, 0.5);
+
+}
+.heatmap {
+	position: fixed;
+	top: 250px;
+	/*top: 360px;*/
+	right: 0px;
+	
+	width: 370px;
+	/*background: rgba(255, 255, 255, 0.6);*/
+	border-radius: 7px;
+	text-align: center;
+}
+.heat_station{
+	margin: 0px;
+}
+.donut {
+	position: fixed;
+	right: 0px;
+	top:30px;
+}
+
+.kpi {
+	font-size: 40px;
+}
+.idx {
+	text-align: right;
+}
+.idx-group {
+	right: 100px;
+	position: fixed;
+	text-align: right;
+
+}
+.ttl {
+	text-align: center;
+}
+
+</style>
+
+
+
+<div id="map"></div>
+<div class="rightbar">
+	<div class="donut"></div>
+	<div class="kpi">
+		<div class="ttl">YouBike 微預測</div>
+		<div class="idx-group">
+			<div class="idx-good">80%</div>
+			<div class="idx-nospace">19%</div>
+			<div class="idx-nobike">1%</div>		
+		</div>		
+	</div>
+	<div class="heatmap">
+		
+		<h3 class= "heat_week_hour">
+			（星期<span class="heat_weekday"></span>
+			<span class="heat_hour"></span>:00）
+		</h3>	
+		<h4 class="heat_station ">
+			捷運公館站
+		</h4>
+		
+	</div>	
+</div>
+
+
+
+<script type="text/javascript" src="./data.js" charset="utf-8"></script>
+<script type="text/javascript" src="./station_10.js" charset="utf-8"></script>
+</body>
+
+</html>
