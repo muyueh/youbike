@@ -1,0 +1,8 @@
+.footerholder {
+  position: fixed;
+  bottom: 10px;
+  left: 30px;
+}
+.footerholder .explanation {
+  color: #808080;
+}
