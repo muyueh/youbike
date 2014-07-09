@@ -1,0 +1,126 @@
+doctype html
+html
+	head
+		meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")		
+		link(href="http://localhost/vis/lib/bootstrap/css/bootstrap.min.css", rel="stylesheet")
+		link(href="http://localhost/vis/lib/bootstrap/css/bootstrap-theme.min.css", rel="stylesheet")
+		link(href="http://fonts.googleapis.com/css?family=Exo+2:300", rel="stylesheet")
+
+
+
+		script(type="text/javascript", src="http://localhost/vis/lib/js/d3.min.js")
+		script(type="text/javascript", src="http://localhost/vis/lib/js/prelude-browser-min.js")
+
+		script(type="text/javascript", src="http://localhost/vis/lib/js/jquery.min.js")
+		script(type="text/javascript", src="http://localhost/vis/lib/bootstrap/js/bootstrap.min.js")
+
+		script(type="text/javascript", src="http://maps.google.com/maps/api/js?sensor=false")
+
+
+	body
+		//- font-family: 'PT Serif', serif;
+		style(type="text/css").
+			.descript{
+				height: 700px;
+			}
+
+			.stn {
+				font-family:sans-serif;
+				z-index: 1;
+				width: 280px;
+				height: 420px;
+				background-color: rgba(0, 0, 0, 0.61);
+				color: white;
+				border-radius: 10px;
+				position: relative;
+				text-align: center;
+				box-shadow: white 0px 0px 4px 4px;
+			}
+			//- box-shadow: rgb(252, 78, 42) 0px 0px 4px 4px;
+			.stntxt {
+				position: relative;
+				top: 14px;
+			}
+			#stn1 {			
+				top: -550px;
+				left: 220px;
+				z-index: 1;
+			}
+			#stn2 {
+				top: -990px;
+				left: 890px;
+				z-index: 1;
+			}
+
+			body, .stn {
+				font-family: 'Exo 2', sans-serif;
+			}
+
+		div.jumbotron
+			div.container
+				h1.
+					Youbike 微預測
+				h2.
+					利用數據，計算借到腳踏車的機率
+
+		//- div.container
+		//- 	div.row
+		//- 		div.col-md-12
+		//- 			div.svgctnr
+					//- div.col-md-4 
+					//- 	div.descript
+					//- 		h1.
+					//- 			this is cool
+					//- 	div.descript
+					//- 		h1.
+					//- 			this is cool
+					//- 	div.descript
+					//- 		h1.
+					//- 			this is cool
+					//- 	div.descript
+					//- 		h1.
+					//- 			this is cool
+					//- div.col-md-8
+					//- 	div.svgctnr
+				div.col-md-12
+					div.col-md-4
+						h1.
+							營收預測
+					div.col-md-8
+						h4.descript.
+							[台北的 Youbike 營收預測]
+
+				div.col-md-12
+					div.col-md-4
+						h1.
+							缺車情況
+					div.col-md-8
+						div.descript
+							[2,408 天]沒位置; 20%
+						div.descript
+							[130 天]沒車借; 2%
+				
+				div.col-md-12
+					div#mapcontainer
+						div#map
+						div#stn1.stn
+							div.stntxt
+								h1.
+									5
+								h4.
+									捷運公館站
+						div#stn2.stn
+							div.stntxt
+								h1.
+									10 
+								h4.
+									師大(公館校區)
+						
+						
+
+
+
+
+		script(type="text/javascript", src="./slide.js")
+
+

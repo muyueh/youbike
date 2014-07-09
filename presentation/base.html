@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>YouBike 微預測</title>
+    <title>YouBike</title>
     <!-- including from inheader - start -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/javascript" src="http://localhost/vis/lib/js/d3.min.js"></script>
     <script type="text/javascript" src="http://localhost/vis/lib/js/prelude-browser-min.js"></script>
     <script type="text/javascript" src="http://localhost/vis/lib/js/angular.min.js"></script>
     <script type="text/javascript" src="http://localhost/vis/lib/js/angular-route.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vis/lib/js/jquery.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vis/lib/bootstrap/js/bootstrap.min.js"></script>
+    <link href="http://localhost/vis/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost/vis/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <!-- including from inheader - end -->
+    <link href="http://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      body{
+       font-family: 'PT Serif', serif;
+      }
+    </style>
   </head>
   <body>
+    <div role="navigation" class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header"><a href="#" class="navbar-brand">YouBike</a></div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Performance</a></li>
+            <li><a href="#nav_problem">Problem</a></li>
+            <li><a href="#nav_data">Data</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <style type="text/css">
       .footerholder {
        position: fixed;
@@ -19,6 +44,7 @@
       }
       .footerholder .explanation {
        color: #808080;
+       
       }
       
     </style>

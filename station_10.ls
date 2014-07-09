@@ -45,6 +45,11 @@ ggl.mpw = 1200
 ggl.mph = 700
 ggl.mapOffset = 4000
 styleName = "paper"
+# styleName = "subtle"
+# styleName = "argegno"
+# styleName = "paper"
+# styleName = "paper"
+# styleName = "paper"
 	# "monochrome"
 	# "paper"	
 	# "turquoise"
