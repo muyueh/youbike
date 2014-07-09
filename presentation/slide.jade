@@ -1,7 +1,7 @@
 doctype html
 html
 	head
-		meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")		
+		meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
 		link(href="http://localhost/vis/lib/bootstrap/css/bootstrap.min.css", rel="stylesheet")
 		link(href="http://localhost/vis/lib/bootstrap/css/bootstrap-theme.min.css", rel="stylesheet")
 		link(href="http://fonts.googleapis.com/css?family=Exo+2:300", rel="stylesheet")
@@ -18,7 +18,8 @@ html
 
 
 	body
-		//- font-family: 'PT Serif', serif;
+		- var stn = { width: "280px", height: "420px"}
+
 		style(type="text/css").
 			.descript{
 				height: 700px;
@@ -27,8 +28,8 @@ html
 			.stn {
 				font-family:sans-serif;
 				z-index: 1;
-				width: 280px;
-				height: 420px;
+				width: #{stn.width};
+				height: #{stn.height};
 				background-color: rgba(0, 0, 0, 0.61);
 				color: white;
 				border-radius: 10px;
@@ -36,7 +37,7 @@ html
 				text-align: center;
 				box-shadow: white 0px 0px 4px 4px;
 			}
-			//- box-shadow: rgb(252, 78, 42) 0px 0px 4px 4px;
+			//- .stn(width= stn.width, height= stn.height)
 			.stntxt {
 				position: relative;
 				top: 14px;
@@ -50,6 +51,10 @@ html
 				top: -990px;
 				left: 890px;
 				z-index: 1;
+			}
+			.stnhis {
+				//- width: #{stn.width};
+				//- height: 200px;
 			}
 
 			body, .stn {
@@ -95,9 +100,9 @@ html
 						h1.
 							缺車情況
 					div.col-md-8
-						div.descript
+						div.descript.
 							[2,408 天]沒位置; 20%
-						div.descript
+						div.descript.
 							[130 天]沒車借; 2%
 				
 				div.col-md-12
@@ -109,18 +114,18 @@ html
 									5
 								h4.
 									捷運公館站
+								svg.stnhis
+								svg.stnheat
+
 						div#stn2.stn
 							div.stntxt
 								h1.
 									10 
 								h4.
 									師大(公館校區)
+								svg.stnhis
+								svg.stnheat
 						
-						
-
-
-
-
 		script(type="text/javascript", src="./slide.js")
 
 

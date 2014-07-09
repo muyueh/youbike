@@ -151,7 +151,7 @@ run = ->
 
 				data[it][row.stations].push {
 					"hour": +(cell.split "_")[1]
-					"week": +((cell.split "_")[0] - 1  + 7) % 7
+					"week": +((cell.split "_")[0] - 1  + 7) % 7 ## start at monday
 					"value": row[cell]
 				}
 
