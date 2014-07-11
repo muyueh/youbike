@@ -1,19 +1,95 @@
 {each, lists-to-obj, flatten} = require "prelude-ls"
 
-# svg = d3.select ".svgctnr"
-# 	.append "svg"
-# 	.attr {
-# 		"width": 700px
-# 		"height": 800px
-# 		# "width": 100%
-# 		# "height": 100%
-# 	}
-# 	# .style {
-# 	# 	"position": "fixed"
-# 	# 	"left": 700
-# 	# 	"top": 250
-# 	# }
-# 	.append "g"
+###-- current situation 
+
+drawsvg = (svgClass, file)->
+
+	dsc = {}
+
+	dsc.mgtop = 50
+	dsc.mgbottom = 50
+	dsc.mgleft = 50
+	dsc.mgright = 80
+
+	dsc.w = 800 - dsc.mgleft - dsc.mgright
+	dsc.h = 700 - dsc.mgtop - dsc.mgbottom
+
+	svg = d3.select svgClass
+		.attr {
+			"width": dsc.w + dsc.mgleft + dsc.mgright
+			"height": dsc.h + dsc.mgtop + dsc.mgbottom
+		}
+		.append "g"
+		.attr {
+			"transform": "translate(" + dsc.mgleft + "," + dsc.mgtop + ")"	
+		}
+		
+
+	err, usageTsv <- d3.tsv "./" + file + ".tsv"
+
+	usageTsv = usageTsv.filter (it, i)->
+		it.kpi = +it.kpi
+		it.dt = new Date it.dt
+
+	x = d3.time.scale!
+		.domain d3.extent usageTsv, -> it.dt
+		.range [0, dsc.w]
+
+	y = d3.scale.linear!
+		.domain [0, d3.max usageTsv, -> it.kpi]
+		.range [dsc.h, 0]
+
+	line = d3.svg.line!
+		.interpolate "basis"
+		.x -> x it.dt
+		.y -> y it.kpi
+
+	svg
+		.append "g"
+		.attr {
+			"class": "axis"
+		}
+		.attr {
+			"transform": "translate(0," + dsc.h + ")"	
+		}
+		.call(d3.svg.axis!.scale x .orient "bottom")
+
+	svg
+		.append "g"
+		.attr {
+			"class": "axis"
+		}
+		.attr {
+			"transform": "translate(" + dsc.w + ", 0)"	
+		}
+		.call(d3.svg.axis!.scale y .orient "right")
+
+	svg
+		.selectAll ".pfm"
+		.data [usageTsv]
+		.enter!
+		.append "path"
+		.attr {
+			"d": -> line it
+			"fill": "none"
+			"class": "pfm"
+		}
+		.style {
+			"stroke": "black"
+			"stroke-width": 2px
+		}	
+
+
+drawsvg ".svgusage", "usage"	
+drawsvg ".svgbad", "bad"
+
+
+
+
+
+###-- data look
+
+
 
 
 ###-- google map
@@ -148,6 +224,8 @@ do ## histogram per hour
 
 
 
+
+
 do ## heatmap
 
 	toentry = (array)->
@@ -172,7 +250,7 @@ do ## heatmap
 	sttw_h = [
 		{
 			"goodstationname": "捷運公館站(2號出口)"
-			"data": toentry [67	94	34	99	157	11	9	10	11	103	109	89	0	0	0	0	0	0	0	0	0	5	24	32	2	0	0	0	4	2	0	26	103	178	92	101	87	58	24	0	0	0	0	0	0	0	57	42	15	0	9	0	11	12	0	23	65	95	78	76	8	3	0	0	0	0	0	0	0	0	31	2	17	0	0	0	46	5	0	21	58	125	128	56	24	17	23	0	0	0	0	0	0	0	23	15	3	6	0	0	0	0	14	43	107	160	82	70	40	6	0	0	0	0	22	32	0	16	36	35	14	8	2	3	25	6	19	107	125	63	48	71	18	11	2	0	0]
+			"data": toentry [	67	94	34	99	157	11	9	10	11	103	109	89	0	0	0	0	0	0	0	0	0	5	24	32	2	0	0	0	4	2	0	26	103	178	92	101	87	58	24	0	0	0	0	0	0	0	57	42	15	0	9	0	11	12	0	23	65	95	78	76	8	3	0	0	0	0	0	0	0	0	31	2	17	0	0	0	46	5	0	21	58	125	128	56	24	17	23	0	0	0	0	0	0	0	23	15	3	6	0	0	0	0	14	43	107	160	82	70	40	6	0	0	0	0	22	32	0	16	36	35	14	8	2	3	25	6	19	107	125	63	48	71	18	11	2	0	0	0	0	0	2	0	89	208	35	32	35	85	73	17	21	31	37	111	111	91	5	0	0	0	0	0	0	0	0	0	38	136]
 		}
 		{
 			"goodstationname": "師範大學公館校區"
@@ -180,7 +258,56 @@ do ## heatmap
 		}	
 	]
 
-	console.log sttw_h
+	# console.log sttw_h
+
+	sttw_h.map (it, i)->
+		hmap = {}
+		hmap.mgleft = 20
+		hmap.mgright = 30
+		hmap.mgtop = 20
+		hmap.mgbottom = 0
+
+		hmap.w = 280 - hmap.mgleft - hmap.mgright
+		hmap.h = 150 - hmap.mgtop - hmap.mgbottom
+
+		hmap.rctmg = 2
+		hmap.rctw = 9.5 - hmap.rctmg
+
+		# console.log hmap.rctw
+
+		g = d3.select "\#stn" + (i + 1)
+			.select ".stnheat"
+			.attr {
+				width: hmap.w + hmap.mgleft + hmap.mgright
+				height: hmap.h + hmap.mgtop + hmap.mgbottom
+			}
+			.append "g"
+			.attr {
+				"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
+			}
+
+		g
+			.selectAll ".rctheat"
+			.data it.data
+			.enter!
+			.append "rect"
+			.attr {
+				"x": (it, i)-> (it.hour * (hmap.rctw + hmap.rctmg))
+				"y": (it, i)-> (((if it.week > 4 then 0.5 else 0) + it.week) * (hmap.rctw + hmap.rctmg))
+				"width": hmap.rctw
+				"height": hmap.rctw
+			}
+			.style {
+				"fill": "orange"
+				"opacity": (it, i)-> 
+					# if it.hour is 11 then return 0
+					(it.value / 100) + 0.1
+			}
+
+
+
+
+
 
 
 

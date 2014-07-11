@@ -13,6 +13,7 @@ html
 
 		script(type="text/javascript", src="http://localhost/vis/lib/js/jquery.min.js")
 		script(type="text/javascript", src="http://localhost/vis/lib/bootstrap/js/bootstrap.min.js")
+		script(type="text/javascript", src="http://localhost/vis/lib/js/colorbrewer.v1.min.js")
 
 		script(type="text/javascript", src="http://maps.google.com/maps/api/js?sensor=false")
 
@@ -30,7 +31,7 @@ html
 				z-index: 1;
 				width: #{stn.width};
 				height: #{stn.height};
-				background-color: rgba(0, 0, 0, 0.61);
+				background-color: rgba(0, 0, 0, 0.9);
 				color: white;
 				border-radius: 10px;
 				position: relative;
@@ -52,80 +53,126 @@ html
 				left: 890px;
 				z-index: 1;
 			}
-			.stnhis {
-				//- width: #{stn.width};
-				//- height: 200px;
+			.jumbotron {
+				margin-bottom: 0px;
+				height: 350px;
+				//- color: white;
+				//- text-shadow: black 0.3em 0.3em 0.3em;
+				background:transparent;
+			}
+
+			.coverimg {
+				width: 100%;
+				height: 350px;
+				background: url(./stn_cover.png) 170px;
+				background-size: 1770px;
+				display: block;
+				content: "";
+				position: absolute;
+				top:0;
+				left:0;
+				z-index:-1;
+				opacity:0.7;
+			}
+			.titles {
+				margin-top:50%
+			}
+
+			.wrapcover {
+				width: 450px;
+				background-color: rgba(255, 255, 255, 0.63);	
+			}
+
+			.axis text {
+				font: 10px sans-serif;
+			}
+
+			.axis path, .axis line {
+				fill: none;
+				stroke: #000;
+				shape-rendering: crispEdges;
 			}
 
 			body, .stn {
 				font-family: 'Exo 2', sans-serif;
 			}
 
+
 		div.jumbotron
+			div.coverimg
 			div.container
-				h1.
-					Youbike 微預測
-				h2.
-					利用數據，計算借到腳踏車的機率
+				div.wrapcover
+					h1.
+						Youbike 微預測
+					h2.
+						利用數據，計算借到腳踏車的機率
 
-		//- div.container
-		//- 	div.row
-		//- 		div.col-md-12
-		//- 			div.svgctnr
-					//- div.col-md-4 
-					//- 	div.descript
-					//- 		h1.
-					//- 			this is cool
-					//- 	div.descript
-					//- 		h1.
-					//- 			this is cool
-					//- 	div.descript
-					//- 		h1.
-					//- 			this is cool
-					//- 	div.descript
-					//- 		h1.
-					//- 			this is cool
-					//- div.col-md-8
-					//- 	div.svgctnr
-				div.col-md-12
-					div.col-md-4
+		div.col-md-12
+			div.col-md-4
+				h1.titles.
+					YouBike 使用量爆炸成長
+				h3.
+					每月近 2,000,000 人次
+				h3.
+					年營收 10 元
+			div.col-md-8
+				div.descript
+					svg.svgusage
+
+		div.col-md-12
+			div.col-md-4
+				h1.titles.
+					但是無法使用的情況也越來越嚴重
+			div.col-md-8
+				div.descript
+					svg.svgbad
+
+		div.col-md-12
+			div.col-md-4
+				h1.titles.
+					台北 101
+			div.col-md-8
+				div.descript
+					div.data_look_1
+		
+		div.col-md-12
+			div.col-md-4
+				h1.titles.
+					捷運公館站
+			div.col-md-8
+				div.descript
+					div.data_look_2
+
+		div.col-md-12
+			div.col-md-4
+				h1.titles.
+					捷運六張犁站
+			div.col-md-8
+				div.descript
+					div.data_look_3
+												
+		div.col-md-12
+			div#mapcontainer
+				div#map
+				div#stn1.stn
+					div.stntxt
 						h1.
-							營收預測
-					div.col-md-8
-						h4.descript.
-							[台北的 Youbike 營收預測]
+							5
+						h4.
+							捷運公館站
+						svg.stnhis
+						svg.stnheat
 
-				div.col-md-12
-					div.col-md-4
+				div#stn2.stn
+					div.stntxt
 						h1.
-							缺車情況
-					div.col-md-8
-						div.descript.
-							[2,408 天]沒位置; 20%
-						div.descript.
-							[130 天]沒車借; 2%
-				
-				div.col-md-12
-					div#mapcontainer
-						div#map
-						div#stn1.stn
-							div.stntxt
-								h1.
-									5
-								h4.
-									捷運公館站
-								svg.stnhis
-								svg.stnheat
-
-						div#stn2.stn
-							div.stntxt
-								h1.
-									10 
-								h4.
-									師大(公館校區)
-								svg.stnhis
-								svg.stnheat
+							10 
+						h4.
+							師大(公館校區)
+						svg.stnhis
+						svg.stnheat
 						
 		script(type="text/javascript", src="./slide.js")
+		script(type="text/javascript", src="./data_look_cnv_2.js")
 
 

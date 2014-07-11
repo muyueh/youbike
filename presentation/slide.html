@@ -9,6 +9,7 @@
     <script type="text/javascript" src="http://localhost/vis/lib/js/prelude-browser-min.js"></script>
     <script type="text/javascript" src="http://localhost/vis/lib/js/jquery.min.js"></script>
     <script type="text/javascript" src="http://localhost/vis/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vis/lib/js/colorbrewer.v1.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
   </head>
   <body>
@@ -22,7 +23,7 @@
        z-index: 1;
        width: 280px;
        height: 420px;
-       background-color: rgba(0, 0, 0, 0.61);
+       background-color: rgba(0, 0, 0, 0.9);
        color: white;
        border-radius: 10px;
        position: relative;
@@ -44,43 +45,114 @@
        left: 890px;
        z-index: 1;
       }
-      .stnhis {
-       //- width: 280px;
-       //- height: 200px;
+      .jumbotron {
+       margin-bottom: 0px;
+       height: 350px;
+       //- color: white;
+       //- text-shadow: black 0.3em 0.3em 0.3em;
+       background:transparent;
+      }
+      
+      .coverimg {
+       width: 100%;
+       height: 350px;
+       background: url(./stn_cover.png) 170px;
+       background-size: 1770px;
+       display: block;
+       content: "";
+       position: absolute;
+       top:0;
+       left:0;
+       z-index:-1;
+       opacity:0.7;
+      }
+      .titles {
+       margin-top:50%
+      }
+      
+      .wrapcover {
+       width: 450px;
+       background-color: rgba(255, 255, 255, 0.63);	
+      }
+      
+      .axis text {
+       font: 10px sans-serif;
+      }
+      
+      .axis path, .axis line {
+       fill: none;
+       stroke: #000;
+       shape-rendering: crispEdges;
       }
       
       body, .stn {
        font-family: 'Exo 2', sans-serif;
       }
       
+      
     </style>
     <div class="jumbotron">
+      <div class="coverimg"></div>
       <div class="container">
-        <h1>Youbike 微預測</h1>
-        <h2>
-          利用數據，計算借到腳踏車的機率
-          
-        </h2>
+        <div class="wrapcover">
+          <h1>Youbike 微預測</h1>
+          <h2>
+            利用數據，計算借到腳踏車的機率
+            
+          </h2>
+        </div>
       </div>
     </div>
     <div class="col-md-12">
       <div class="col-md-4">
-        <h1>營收預測</h1>
+        <h1 class="titles">YouBike 使用量爆炸成長</h1>
+        <h3>每月近 2,000,000 人次</h3>
+        <h3>年營收 10 元</h3>
       </div>
       <div class="col-md-8">
-        <h4 class="descript">
-          [台北的 Youbike 營收預測]
-          
-        </h4>
+        <div class="descript">
+          <svg class="svgusage"></svg>
+        </div>
       </div>
     </div>
     <div class="col-md-12">
       <div class="col-md-4">
-        <h1>缺車情況</h1>
+        <h1 class="titles">但是無法使用的情況也越來越嚴重</h1>
       </div>
       <div class="col-md-8">
-        <div class="descript">[2,408 天]沒位置; 20%</div>
-        <div class="descript">[130 天]沒車借; 2%</div>
+        <div class="descript">
+          <svg class="svgbad"></svg>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <h1 class="titles">台北 101</h1>
+      </div>
+      <div class="col-md-8">
+        <div class="descript">
+          <div class="data_look_1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <h1 class="titles">捷運公館站</h1>
+      </div>
+      <div class="col-md-8">
+        <div class="descript">
+          <div class="data_look_2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <h1 class="titles">捷運六張犁站</h1>
+      </div>
+      <div class="col-md-8">
+        <div class="descript">
+          <div class="data_look_3"></div>
+        </div>
       </div>
     </div>
     <div class="col-md-12">
@@ -105,5 +177,6 @@
       </div>
     </div>
     <script type="text/javascript" src="./slide.js"></script>
+    <script type="text/javascript" src="./data_look_cnv_2.js"></script>
   </body>
 </html>
