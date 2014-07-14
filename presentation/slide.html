@@ -5,6 +5,7 @@
     <link href="http://localhost/vis/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://localhost/vis/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Exo+2:300" rel="stylesheet">
+    <link href="./slide.css" rel="stylesheet">
     <script type="text/javascript" src="http://localhost/vis/lib/js/d3.min.js"></script>
     <script type="text/javascript" src="http://localhost/vis/lib/js/prelude-browser-min.js"></script>
     <script type="text/javascript" src="http://localhost/vis/lib/js/jquery.min.js"></script>
@@ -13,84 +14,6 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
   </head>
   <body>
-    <style type="text/css">
-      .descript{
-       height: 700px;
-      }
-      
-      .stn {
-       font-family:sans-serif;
-       z-index: 1;
-       width: 280px;
-       height: 420px;
-       background-color: rgba(0, 0, 0, 0.9);
-       color: white;
-       border-radius: 10px;
-       position: relative;
-       text-align: center;
-       box-shadow: white 0px 0px 4px 4px;
-      }
-      //- .stn(width= stn.width, height= stn.height)
-      .stntxt {
-       position: relative;
-       top: 14px;
-      }
-      #stn1 {			
-       top: -550px;
-       left: 220px;
-       z-index: 1;
-      }
-      #stn2 {
-       top: -990px;
-       left: 890px;
-       z-index: 1;
-      }
-      .jumbotron {
-       margin-bottom: 0px;
-       height: 350px;
-       //- color: white;
-       //- text-shadow: black 0.3em 0.3em 0.3em;
-       background:transparent;
-      }
-      
-      .coverimg {
-       width: 100%;
-       height: 350px;
-       background: url(./stn_cover.png) 170px;
-       background-size: 1770px;
-       display: block;
-       content: "";
-       position: absolute;
-       top:0;
-       left:0;
-       z-index:-1;
-       opacity:0.7;
-      }
-      .titles {
-       margin-top:50%
-      }
-      
-      .wrapcover {
-       width: 450px;
-       background-color: rgba(255, 255, 255, 0.63);	
-      }
-      
-      .axis text {
-       font: 10px sans-serif;
-      }
-      
-      .axis path, .axis line {
-       fill: none;
-       stroke: #000;
-       shape-rendering: crispEdges;
-      }
-      
-      body, .stn {
-       font-family: 'Exo 2', sans-serif;
-      }
-      
-      
-    </style>
     <div class="jumbotron">
       <div class="coverimg"></div>
       <div class="container">
@@ -107,7 +30,7 @@
       <div class="col-md-4">
         <h1 class="titles">YouBike 使用量爆炸成長</h1>
         <h3>每月近 2,000,000 人次</h3>
-        <h3>年營收 10 元</h3>
+        <h3>營收 1億2千萬元 （2013 年）</h3>
       </div>
       <div class="col-md-8">
         <div class="descript">
@@ -147,36 +70,53 @@
     </div>
     <div class="col-md-12">
       <div class="col-md-4">
-        <h1 class="titles">捷運六張犁站</h1>
+        <h1 class="titles">個別使用者獲益</h1>
+        <h3>不確定減少，使用者增加</h3>
+        <h3>增加媒合成功 = 增加營收</h3>
+        <h3>
+          使用者自動疏散，減少車輛調度需求	
+          
+        </h3>
       </div>
       <div class="col-md-8">
-        <div class="descript">
-          <div class="data_look_3"></div>
+        <div id="micmapcontainer">
+          <div id="micmap"></div>
+          <div id="stn1" class="stn">
+            <div class="stntxt">
+              <h1>5</h1>
+              <h4>捷運公館站</h4>
+              <svg class="stnhis"></svg>
+              <svg class="stnheat"></svg>
+            </div>
+          </div>
+          <div id="stn2" class="stn">
+            <div class="stntxt">
+              <h1>10 </h1>
+              <h4>師大(公館校區)</h4>
+              <svg class="stnhis"></svg>
+              <svg class="stnheat"></svg>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-12">
-      <div id="mapcontainer">
-        <div id="map"></div>
-        <div id="stn1" class="stn">
-          <div class="stntxt">
-            <h1>5</h1>
-            <h4>捷運公館站</h4>
-            <svg class="stnhis"></svg>
-            <svg class="stnheat"></svg>
-          </div>
-        </div>
-        <div id="stn2" class="stn">
-          <div class="stntxt">
-            <h1>10 </h1>
-            <h4>師大(公館校區)</h4>
-            <svg class="stnhis"></svg>
-            <svg class="stnheat"></svg>
-          </div>
+      <div class="col-md-4">
+        <h1 class="titles">硬體廠如虎添翼</h1>
+        <h3>硬體解決方案非常昂貴（一萬元/車）</h3>
+        <h3>目前約有 20% 的改善空間</h3>
+        <h3>分析新設站點的決定</h3>
+      </div>
+      <div class="col-md-8">
+        <div id="macmapcontainer">
+          <div id="macmap"></div>
         </div>
       </div>
     </div>
     <script type="text/javascript" src="./slide.js"></script>
     <script type="text/javascript" src="./data_look_cnv_2.js"></script>
+    <script type="text/javascript" src="./usage.js"></script>
+    <script type="text/javascript" src="./map_2.js"></script>
+    <script type="text/javascript" src="./macro_map.js"></script>
   </body>
 </html>

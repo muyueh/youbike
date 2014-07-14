@@ -1,0 +1,36 @@
+body {
+  font-family: 'Exo 2', sans-serif;
+}
+.lsstn {
+  width: 700px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+}
+.kpinum {
+  font-size: 40px;
+}
+.kpinum.pos {
+  color: #3288bd;
+}
+.kpinum.neg {
+  color: #d73027;
+}
+.kpinum.sum {
+  font-size: 80px;
+}
+.stname {
+  position: absolute;
+  top: 46px;
+  font-size: 21px;
+}
+.ctnkpi {
+  display: inline;
+}
+.lsstn .ctnheatmap {
+  display: inline;
+  margin-left: 60px;
+}
+.ctnhist {
+  display: inline;
+}

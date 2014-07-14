@@ -5,6 +5,7 @@ html
 		link(href="http://localhost/vis/lib/bootstrap/css/bootstrap.min.css", rel="stylesheet")
 		link(href="http://localhost/vis/lib/bootstrap/css/bootstrap-theme.min.css", rel="stylesheet")
 		link(href="http://fonts.googleapis.com/css?family=Exo+2:300", rel="stylesheet")
+		link(href="./slide.css", rel="stylesheet")
 
 
 
@@ -19,84 +20,6 @@ html
 
 
 	body
-		- var stn = { width: "280px", height: "420px"}
-
-		style(type="text/css").
-			.descript{
-				height: 700px;
-			}
-
-			.stn {
-				font-family:sans-serif;
-				z-index: 1;
-				width: #{stn.width};
-				height: #{stn.height};
-				background-color: rgba(0, 0, 0, 0.9);
-				color: white;
-				border-radius: 10px;
-				position: relative;
-				text-align: center;
-				box-shadow: white 0px 0px 4px 4px;
-			}
-			//- .stn(width= stn.width, height= stn.height)
-			.stntxt {
-				position: relative;
-				top: 14px;
-			}
-			#stn1 {			
-				top: -550px;
-				left: 220px;
-				z-index: 1;
-			}
-			#stn2 {
-				top: -990px;
-				left: 890px;
-				z-index: 1;
-			}
-			.jumbotron {
-				margin-bottom: 0px;
-				height: 350px;
-				//- color: white;
-				//- text-shadow: black 0.3em 0.3em 0.3em;
-				background:transparent;
-			}
-
-			.coverimg {
-				width: 100%;
-				height: 350px;
-				background: url(./stn_cover.png) 170px;
-				background-size: 1770px;
-				display: block;
-				content: "";
-				position: absolute;
-				top:0;
-				left:0;
-				z-index:-1;
-				opacity:0.7;
-			}
-			.titles {
-				margin-top:50%
-			}
-
-			.wrapcover {
-				width: 450px;
-				background-color: rgba(255, 255, 255, 0.63);	
-			}
-
-			.axis text {
-				font: 10px sans-serif;
-			}
-
-			.axis path, .axis line {
-				fill: none;
-				stroke: #000;
-				shape-rendering: crispEdges;
-			}
-
-			body, .stn {
-				font-family: 'Exo 2', sans-serif;
-			}
-
 
 		div.jumbotron
 			div.coverimg
@@ -114,7 +37,7 @@ html
 				h3.
 					每月近 2,000,000 人次
 				h3.
-					年營收 10 元
+					營收 1億2千萬元 （2013 年）
 			div.col-md-8
 				div.descript
 					svg.svgusage
@@ -143,36 +66,58 @@ html
 				div.descript
 					div.data_look_2
 
+		//- map	
 		div.col-md-12
 			div.col-md-4
 				h1.titles.
-					捷運六張犁站
-			div.col-md-8
-				div.descript
-					div.data_look_3
-												
-		div.col-md-12
-			div#mapcontainer
-				div#map
-				div#stn1.stn
-					div.stntxt
-						h1.
-							5
-						h4.
-							捷運公館站
-						svg.stnhis
-						svg.stnheat
+					個別使用者獲益
+				h3.
+					不確定減少，使用者增加
+				h3.
+					增加媒合成功 = 增加營收
+				h3.
+					使用者自動疏散，減少車輛調度需求	
 
-				div#stn2.stn
-					div.stntxt
-						h1.
-							10 
-						h4.
-							師大(公館校區)
-						svg.stnhis
-						svg.stnheat
-						
+			div.col-md-8
+				div#micmapcontainer
+					div#micmap
+					div#stn1.stn
+						div.stntxt
+							h1.
+								5
+							h4.
+								捷運公館站
+							svg.stnhis
+							svg.stnheat
+
+					div#stn2.stn
+						div.stntxt
+							h1.
+								10 
+							h4.
+								師大(公館校區)
+							svg.stnhis
+							svg.stnheat
+		
+		div.col-md-12
+			div.col-md-4
+				h1.titles.
+					硬體廠如虎添翼
+				h3.
+					硬體解決方案非常昂貴（一萬元/車）
+				h3.
+					目前約有 20% 的改善空間
+				h3.
+					分析新設站點的決定
+			div.col-md-8
+				div#macmapcontainer
+					div#macmap
+
 		script(type="text/javascript", src="./slide.js")
 		script(type="text/javascript", src="./data_look_cnv_2.js")
+		script(type="text/javascript", src="./usage.js")
+		script(type="text/javascript", src="./map_2.js")
+		script(type="text/javascript", src="./macro_map.js")
+		
 
 

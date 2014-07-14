@@ -1,0 +1,73 @@
+.descript {
+  height: 700px;
+}
+.stn {
+  font-family: sans-serif;
+  z-index: 1;
+  background-color: rgba(0,0,0,0.9);
+  width: 263px;
+  height: 352px;
+  color: #fff;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+  box-shadow: #fff 0px 0px 4px 4px;
+}
+.stntxt {
+  position: relative;
+  top: 14px;
+}
+#stn1 {
+  top: -750px;
+  left: 510px;
+  z-index: 1;
+}
+#stn2 {
+  top: -761px;
+  left: 512px;
+  z-index: 1;
+}
+.jumbotron {
+  margin-bottom: 0px;
+  height: 350px;
+  background: transparent;
+}
+.coverimg {
+  width: 100%;
+  height: 350px;
+  background: url("./stn_cover.png") 170px;
+  background-size: 1770px;
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.7;
+}
+.titles {
+  margin-top: 50%;
+}
+.wrapcover {
+  width: 450px;
+  background-color: rgba(255,255,255,0.63);
+}
+.axis text {
+  font: 10px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+#micmapcontainer {
+  height: 800px;
+}
+#macmapcontainer {
+  height: 800px;
+}
+body,
+.stn {
+  font-family: 'Exo 2', sans-serif;
+}

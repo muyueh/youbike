@@ -11,7 +11,7 @@ mk_look = function(filename, ctnClass){
     right: 60,
     bottom: 15
   };
-  ggl.w = 900 - ggl.margin.left - ggl.margin.right;
+  ggl.w = 750 - ggl.margin.left - ggl.margin.right;
   ggl.h = 500 - ggl.margin.top - ggl.margin.bottom;
   svg = d3.select("body").select(ctnClass).append("svg").attr({
     "width": ggl.w + ggl.margin.left + ggl.margin.right,
@@ -179,4 +179,3 @@ mk_look = function(filename, ctnClass){
 };
 mk_look("信義廣場(台北101)", ".data_look_1");
 mk_look("捷運公館站(2號出口)", ".data_look_2");
-mk_look("捷運六張犁站", ".data_look_3");
