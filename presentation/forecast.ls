@@ -5,7 +5,8 @@
 
 ggl = {}
 
-ggl.mpw = 800
+ggl.mpw = 1200
+# ggl.mpw = 800
 ggl.mph = 750
 ggl.mapOffset = 4000
 ggl.styleName = "paper_light"
@@ -23,10 +24,10 @@ ggl.whdata = {
 	# }
 }
 
-# ggl.crrview = "sum"
-ggl.crrview = "neg"
-# ggl.crrstation = "捷運公館站(2號出口)"
-ggl.crrstation = "師範大學公館校區"
+ggl.crrview = "sum"
+# ggl.crrview = "pos"
+ggl.crrstation = "捷運公館站(2號出口)"
+# ggl.crrstation = "師範大學公館校區"
 ggl.crrweek = 0
 ggl.crrhour = 0
 
@@ -106,15 +107,15 @@ setVCircleColor = ->
 		}
 
 # console.log ggl.whdata[ggl.crrview][ggl.crrstation]
-setHRect = ->
-	dt = ggl.whdata[ggl.crrview][ggl.crrstation]
+# setHRect = ->
+# 	dt = ggl.whdata[ggl.crrview][ggl.crrstation]
 
-	for cwh of dt
-		if cwh is not "stations"
-			d3.selectAll ".hm-" + cwh
-				.style {
-					"fill": ggl.colorscl dt[cwh]
-				}
+# 	for cwh of dt
+# 		if cwh is not "stations"
+# 			d3.selectAll ".hm-" + cwh
+# 				.style {
+# 					"fill": ggl.colorscl dt[cwh]
+# 				}
 
 
 ### -- heatmap
@@ -142,52 +143,7 @@ hmap.h = 100 - hmap.mgtop - hmap.mgbottom
 hmap.rctmg = 3
 hmap.rctw = 12 - hmap.rctmg
 
-initHeat = ->
-	g = d3.selectAll ".stn0"
-		.selectAll ".heatmap"
-		.attr {
-			width: hmap.w + hmap.mgleft + hmap.mgright
-			height: hmap.h + hmap.mgtop + hmap.mgbottom
-		}
-		.append "g"
-		.attr {
-			"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
-		}
-
-	g
-		.selectAll ".rctheat"
-		.data hhdr
-		.enter!
-		.append "rect"
-		.attr {
-			"x": (it, i) -> (it.hour * (hmap.rctw + hmap.rctmg))
-			"y": (it, i) -> 
-				w = ((it.week - 1) + 7) % 7 # start with monday as 0 sunday as 1
-				(((if w > 4 then 0.5 else 0) + w) * (hmap.rctw + hmap.rctmg))
-			"class": (it, i) -> "rctheat hm-" + it.wh
-			"width": hmap.rctw
-			"height": hmap.rctw
-		}
-		.style {
-			"fill": "orange"
-		}
-
-initHeat!
-
-
-# hmap = {}
-# hmap.mgleft = 5
-# hmap.mgright = 5
-# hmap.mgtop = 10
-# hmap.mgbottom = 10
-
-# hmap.w = 330 - hmap.mgleft - hmap.mgright
-# hmap.h = 100 - hmap.mgtop - hmap.mgbottom
-
-# hmap.rctmg = 3
-# hmap.rctw = 12 - hmap.rctmg
-
-
+###---
 
 hs = {}
 hs.mgleft = 5
@@ -198,53 +154,128 @@ hs.mgbottom = 15
 hs.w = 330 - hs.mgleft - hs.mgright
 hs.h = 100 - hs.mgtop - hs.mgbottom
 
-initHist = ->
-	g = d3.selectAll ".stn0"
-		.selectAll ".histchart"
-		.attr {
-			width: hmap.w + hmap.mgleft + hmap.mgright
-			height: hmap.h + hmap.mgtop + hmap.mgbottom
-		}
-		.append "g"
-		.attr {
-			"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
-		}
 
-	lsstn = d3.entries ggl.whdata[ggl.crrview][ggl.crrstation] 
-		.filter -> it.key is not "stations"
 
-	# console.log lsstn
+initStInfo = (containerClass, stName)->
+	initHeat = ->
+		g = d3.selectAll containerClass
+			.selectAll ".heatmap"
+			.attr {
+				width: hmap.w + hmap.mgleft + hmap.mgright
+				height: hmap.h + hmap.mgtop + hmap.mgbottom
+			}
+			.append "g"
+			.attr {
+				"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
+			}
 
-	x = d3.scale.linear!
-		.domain [0, lsstn.length]
-		.range [0, hs.w]
+		g
+			.selectAll ".rctheat"
+			.data hhdr
+			.enter!
+			.append "rect"
+			.attr {
+				"x": (it, i) -> (it.hour * (hmap.rctw + hmap.rctmg))
+				"y": (it, i) -> 
+					w = ((it.week - 1) + 7) % 7 # start with monday as 0 sunday as 1
+					(((if w > 4 then 0.5 else 0) + w) * (hmap.rctw + hmap.rctmg))
+				"class": (it, i) -> "rctheat hm-" + it.wh
+				"width": hmap.rctw
+				"height": hmap.rctw
+			}
+			.style {
+				"fill": (it, i) -> ggl.colorscl ggl.whdata[ggl.crrview][stName][it.wh]
+				# "orange"
+			}
 
-	histLimit = 30
 
-	y = d3.scale.linear!
-		.domain [-histLimit, histLimit]
-		.range [hs.h, 0]
+	# 		setHRect = ->
+	# dt = ggl.whdata[ggl.crrview][ggl.crrstation]
 
-	line = d3.svg.line!
-		.interpolate "basis"
-		.x (it, i)-> x i
-		.y (it, i)-> y it.value
+	# for cwh of dt
+	# 	if cwh is not "stations"
+	# 		d3.selectAll ".hm-" + cwh
+	# 			.style {
+	# 				"fill": ggl.colorscl dt[cwh]
+	# 			}
 
-	g.selectAll "path"
-		.data [lsstn]
+	initHist = ->
+		g = d3.selectAll containerClass
+			.selectAll ".histchart"
+			.attr {
+				width: hmap.w + hmap.mgleft + hmap.mgright
+				height: hmap.h + hmap.mgtop + hmap.mgbottom
+			}
+			.append "g"
+			.attr {
+				"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
+			}
+
+		lsstn = d3.entries ggl.whdata["sum"][stName]
+			.filter -> it.key is not "stations"
+
+		# console.log lsstn
+
+		x = d3.scale.linear!
+			.domain [0, lsstn.length]
+			.range [0, hs.w]
+
+		histLimit = 10
+
+		y = d3.scale.linear!
+			.domain [-histLimit, histLimit]
+			.range [hs.h, 0]
+
+		line = d3.svg.line!
+			.interpolate "basis"
+			.x (it, i)-> x i
+			.y (it, i)-> y it.value
+
+		g.selectAll "path"
+			.data [lsstn]
+			.enter!
+			.append "path"
+			.attr {
+				"d": -> line it
+			}
+			.style {
+				"fill": "none"
+				"stroke": "black"
+				"stroke-width": 2px
+			}
+
+	initHist!
+	initHeat!
+
+initDiv = ->
+	appndDiv = d3.selectAll ".lsstn"
+		.selectAll ".stn"
+		.data [0 to 5]
 		.enter!
-		.append "path"
+		.append "div"
 		.attr {
-			"d": -> line it
-		}
-		.style {
-			"fill": "none"
-			# "stroke": "white"
-			"stroke": "black"
-			"stroke-width": 2px
+			"class": (it, i)-> "stn stn" + i
 		}
 
-# initHist!
+	appndDiv
+		.append "div"
+		.attr {
+			"class": "ctnhist"
+		}
+		.append "svg"
+		.attr {
+			"class": "histchart"
+		}
+
+	appndDiv
+		.append "div"
+		.attr {
+			"class": "ctnheatmap"
+		}
+		.append "svg"
+		.attr {
+			"class": "heatmap"
+		}
 
 
 err, startJson <- d3.json "../week_hour_total/station_start.json"
@@ -282,13 +313,16 @@ ggl.flls.map (flname)->
 		ggl.whdata[flname][stdata.stations] := stdata
 
 		if flwait is 0 and whwait is 0 
-				# then console.log ggl.whdata[ggl.crrview][ggl.crrstation]
-				initHist!
+				#console.log ggl.whdata[ggl.crrview][ggl.crrstation]
+
+				initDiv!
+				initStInfo ".stn0", "捷運公館站(2號出口)"
+				initStInfo ".stn1", "師範大學公館校區"
+				initStInfo ".stn2", "八德市場"
+				initStInfo ".stn3", "中崙高中"
+				initStInfo ".stn4", "捷運大安森林公園站"
 
 # console.log ggl.whdata
-
-
-
 
 
 # ##--- map

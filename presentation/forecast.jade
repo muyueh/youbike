@@ -9,13 +9,6 @@ html
 		script(type="text/javascript", src="http://localhost/vis/lib/js/prelude-browser-min.js")
 		script(type="text/javascript", src="http://localhost/vis/lib/js/colorbrewer.v1.min.js")
 		script(type="text/javascript", src="http://maps.google.com/maps/api/js?sensor=false")
-
-
-	body
-		div#mapcontainer
-			div#map
-			div.lsstn
-				div.stn.stn0
 					//- div.ctnkpi
 					//- 	span.kpinum.sum.
 					//- 		10
@@ -25,15 +18,11 @@ html
 					//- 		+5
 					//- 	span.kpinum.neg.
 					//- 		-4
-					div.ctnhist
-						svg.histchart
-					div.ctnheatmap
-						svg.heatmap
-				div.stn.stn1
-					svg.heatmap
-				div.stn.stn2
-					svg.heatmap
-				div.stn.stn3
-				
+
+
+	body
+		div#mapcontainer
+			div#map
+			div.lsstn
 
 	script(type="text/javascript", src="./forecast.js")
