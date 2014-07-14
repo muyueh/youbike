@@ -25,7 +25,8 @@ ggl.whdata = {
 
 # ggl.crrview = "sum"
 ggl.crrview = "neg"
-ggl.crrstation = "捷運公館站(2號出口)"
+# ggl.crrstation = "捷運公館站(2號出口)"
+ggl.crrstation = "師範大學公館校區"
 ggl.crrweek = 0
 ggl.crrhour = 0
 
@@ -142,7 +143,6 @@ hmap.rctmg = 3
 hmap.rctw = 12 - hmap.rctmg
 
 initHeat = ->
-	# (hdata)->
 	g = d3.selectAll ".stn0"
 		.selectAll ".heatmap"
 		.attr {
@@ -173,6 +173,78 @@ initHeat = ->
 		}
 
 initHeat!
+
+
+# hmap = {}
+# hmap.mgleft = 5
+# hmap.mgright = 5
+# hmap.mgtop = 10
+# hmap.mgbottom = 10
+
+# hmap.w = 330 - hmap.mgleft - hmap.mgright
+# hmap.h = 100 - hmap.mgtop - hmap.mgbottom
+
+# hmap.rctmg = 3
+# hmap.rctw = 12 - hmap.rctmg
+
+
+
+hs = {}
+hs.mgleft = 5
+hs.mgright = 5
+hs.mgtop = 0
+hs.mgbottom = 15
+
+hs.w = 330 - hs.mgleft - hs.mgright
+hs.h = 100 - hs.mgtop - hs.mgbottom
+
+initHist = ->
+	g = d3.selectAll ".stn0"
+		.selectAll ".histchart"
+		.attr {
+			width: hmap.w + hmap.mgleft + hmap.mgright
+			height: hmap.h + hmap.mgtop + hmap.mgbottom
+		}
+		.append "g"
+		.attr {
+			"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
+		}
+
+	lsstn = d3.entries ggl.whdata[ggl.crrview][ggl.crrstation] 
+		.filter -> it.key is not "stations"
+
+	# console.log lsstn
+
+	x = d3.scale.linear!
+		.domain [0, lsstn.length]
+		.range [0, hs.w]
+
+	histLimit = 30
+
+	y = d3.scale.linear!
+		.domain [-histLimit, histLimit]
+		.range [hs.h, 0]
+
+	line = d3.svg.line!
+		.interpolate "basis"
+		.x (it, i)-> x i
+		.y (it, i)-> y it.value
+
+	g.selectAll "path"
+		.data [lsstn]
+		.enter!
+		.append "path"
+		.attr {
+			"d": -> line it
+		}
+		.style {
+			"fill": "none"
+			# "stroke": "white"
+			"stroke": "black"
+			"stroke-width": 2px
+		}
+
+# initHist!
 
 
 err, startJson <- d3.json "../week_hour_total/station_start.json"
@@ -209,7 +281,9 @@ ggl.flls.map (flname)->
 			if dt is not "stations" then stdata[dt] = +stdata[dt] / startJson[stdata.stations]
 		ggl.whdata[flname][stdata.stations] := stdata
 
-		if flwait is 0 and whwait is 0 then console.log ggl.whdata[ggl.crrview][ggl.crrstation]
+		if flwait is 0 and whwait is 0 
+				# then console.log ggl.whdata[ggl.crrview][ggl.crrstation]
+				initHist!
 
 # console.log ggl.whdata
 
