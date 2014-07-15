@@ -2,10 +2,10 @@ body {
   font-family: 'Exo 2', sans-serif;
 }
 .lsstn {
-  width: 700px;
+  width: 650px;
   position: fixed;
   top: 0px;
-  right: 0px;
+  right: 10px;
 }
 .kpinum {
   font-size: 40px;
@@ -30,6 +30,37 @@ body {
 .lsstn .ctnheatmap {
   display: inline;
 }
+.kpi {
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 5px;
+}
 .ctnhist {
   display: inline;
+  margin-left: 180px;
+}
+.panel {
+  background-color: rgba(0,0,0,0.73);
+  border-radius: 10px;
+  margin: 2px;
+  color: #fff;
+}
+.stn {
+  background-color: rgba(0,0,0,0.73);
+  border-radius: 10px;
+  margin: 2px;
+  color: #fff;
+}
+.inl {
+  display: inline;
+}
+.ttl {
+  width: 250px;
+  position: fixed;
+  left: 10px;
+  bottom: 11px;
+  text-align: center;
+}
+.ttlctn {
+  margin: 10px;
 }

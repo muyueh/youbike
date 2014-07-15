@@ -28,11 +28,11 @@ d3.json("./week_hour_total/station_start.json", function(err, startJson){
     if (colorscheme === "RdYlBu") {
       cdmn = [-10, 10];
     } else if (colorscheme === "YlOrRd") {
-      cdmn = [0, 20];
-    } else if (colorscheme === "GnBu") {
       cdmn = [0, -20];
+    } else if (colorscheme === "GnBu") {
+      cdmn = [0, 20];
     }
-    color = d3.scale.quantize().domain(cdmn).range(colorbrewer[colorscheme][9]);
+    color = d3.scale.quantize().domain(cdmn).range(colorbrewer[colorscheme][5]);
     svg = d3.select("body").append("svg").attr("width", ggl.w + ggl.margin.left + ggl.margin.right).attr("height", ggl.h + ggl.margin.top + ggl.margin.bottom).append("g").attr("transform", "translate(" + ggl.margin.left + ", " + ggl.margin.top + ")");
     svg.selectAll("heatreact").data(data).enter().append("rect").attr({
       "x": function(it, i){
@@ -73,8 +73,8 @@ d3.json("./week_hour_total/station_start.json", function(err, startJson){
   };
   run = function(){
     return datalist.map(function(stnm){
-      buildHeatMap(data.pos[stnm], "YlOrRd", stnm);
-      buildHeatMap(data.neg[stnm], "GnBu", stnm);
+      buildHeatMap(data.pos[stnm], "GnBu", stnm);
+      buildHeatMap(data.neg[stnm], "YlOrRd", stnm);
       return buildHeatMap(data.sum[stnm], "RdYlBu", stnm);
     });
   };

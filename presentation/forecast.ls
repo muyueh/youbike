@@ -1,11 +1,11 @@
-{lists-to-obj, flatten} = require "prelude-ls"
+{lists-to-obj, flatten, slice} = require "prelude-ls"
 
 #TODO: monday as 0 
 #DONE: value need to devide by basis; occurance per type
 
 ggl = {}
 
-ggl.mpw = 1200
+ggl.mpw = 1280
 # ggl.mpw = 800
 ggl.mph = 750
 ggl.mapOffset = 4000
@@ -27,11 +27,12 @@ ggl.whdata = {
 ggl.crrview = "sum"
 # ggl.crrview = "pos"
 ggl.crrstation = "捷運公館站(2號出口)"
-# ggl.crrstation = "師範大學公館校區"
-ggl.crrweek = 0
+ggl.crrweek = 1 #start with monday
 ggl.crrhour = 0
 
 ggl.colorscl = null
+
+ggl.auto = true
 
 ggl.zoomlevel = {
 	20: 1128.497220
@@ -70,6 +71,16 @@ ggl.colorSet = {
 }
 
 
+ggl.stnBind = {
+	".stn0": "捷運公館站(2號出口)"
+	".stn1": "師範大學公館校區"
+	".stn2": "八德市場"
+	".stn3": "中崙高中"
+	".stn4": "捷運大安森林公園站"
+}
+
+
+
 # TODO use linear instead of quantize
 setColorScl = ->
 	ggl.colorscl := d3.scale.quantize!domain ggl.colorSet[ggl.crrview]["dm"] .range colorbrewer[ggl.colorSet[ggl.crrview]["schm"]][5]
@@ -89,10 +100,59 @@ whtick = ->
 		ggl.crrhour := 0
 
 	setVCircleColor!
-	console.log ggl.crrweek + ":" + ggl.crrhour
+	setWH!
+	setKPI!
+	# console.log ggl.crrweek + ":" + ggl.crrhour
+
 
 setInterval (-> whtick!), 1000
+# setTimeout (-> whtick!), 1000
 
+ggl.weekTable = lists-to-obj [0 to 6], ["日" "ㄧ" "二" "三" "四" "五" "六"]
+
+# w = ((it.week - 1) + 7) % 7
+
+
+
+
+setKPI = ->
+	wh = ggl.crrweek + "_" + ggl.crrhour
+
+	setHGHM = ->
+		d3.selectAll ".hghm"
+			.style {
+				"display": "none"
+			}
+
+		d3.selectAll ".hghm-" + wh
+			.style {
+				"display": "inline"
+			}
+
+	setHGHM!
+
+	d3.selectAll ".stn"
+		.each (it, i)->
+			that = this
+			# if (d3.select this .attr "id") is not null 
+			stName = ((d3.select this .attr "id").split "ctn")[1]
+
+			# console.log d3.select this
+			# console.log stName
+			ggl.flls.map (fl)->
+
+			# 	console.log fl
+				d3.select that
+					.selectAll(".kpi" + fl)
+					.text ~~ggl.whdata[fl][stName][wh]
+		
+
+setWH = ->
+	d3.selectAll ".ttlweek"
+		.text "星期" + ggl.weekTable[ggl.crrweek] + " "
+
+	d3.selectAll ".ttlhour"
+		.text (if (ggl.crrhour + 1) < 10 then "0" else "") + (ggl.crrhour + 1) + ":00"
 
 setVCircleColor = ->
 
@@ -105,17 +165,6 @@ setVCircleColor = ->
 				w_h = ggl.crrweek + "_" + ggl.crrhour
 				ggl.colorscl ggl.whdata[ggl.crrview][nm][w_h]
 		}
-
-# console.log ggl.whdata[ggl.crrview][ggl.crrstation]
-# setHRect = ->
-# 	dt = ggl.whdata[ggl.crrview][ggl.crrstation]
-
-# 	for cwh of dt
-# 		if cwh is not "stations"
-# 			d3.selectAll ".hm-" + cwh
-# 				.style {
-# 					"fill": ggl.colorscl dt[cwh]
-# 				}
 
 
 ### -- heatmap
@@ -132,7 +181,7 @@ hhdr = flatten (
 
 
 hmap = {}
-hmap.mgleft = 5
+hmap.mgleft = 30
 hmap.mgright = 5
 hmap.mgtop = 10
 hmap.mgbottom = 10
@@ -148,15 +197,75 @@ hmap.rctw = 12 - hmap.rctmg
 hs = {}
 hs.mgleft = 5
 hs.mgright = 5
-hs.mgtop = 0
+hs.mgtop = 10
 hs.mgbottom = 15
 
-hs.w = 330 - hs.mgleft - hs.mgright
+# hs.w = 330 - hs.mgleft - hs.mgright
+hs.w = 130 - hs.mgleft - hs.mgright
 hs.h = 100 - hs.mgtop - hs.mgbottom
 
 
 
 initStInfo = (containerClass, stName)->
+
+	d3.selectAll containerClass
+		.attr {
+			"id": "ctn" + stName
+		}
+
+	initKPI = ->
+		ctnkpi = d3.selectAll containerClass
+			.selectAll ".kpi"
+
+
+		ctnkpi.append "div"
+			.text stName
+			.attr {
+				# "class": "inl stName"
+			}
+
+		scr = ctnkpi.append "div"
+
+		scr.append "div"
+			.text "10" 
+			.attr {
+				"class": "kpisum"
+			}
+			.style {
+				"font-size": "40px"
+				"margin-left": "75px"
+				"margin-top": "10px"
+			}
+
+		scr.append "div"
+			.text "="
+			.attr {
+				"class": "inl"
+			}
+			.style {
+				"margin-left": "40px"
+			}
+
+		scr.append "div"
+			.text "+20"
+			.attr {
+				"class": "inl kpipos"
+			}
+			.style {
+				"margin-left": "10px"
+				# "color": "rgb(171, 217, 233)"
+			}
+
+		scr.append "div"
+			.text "-10"
+			.attr {
+				"class": "inl kpineg"
+			}
+			.style {
+				"margin-left": "10px"
+				# "color": "rgb(215, 25, 28)"
+			}
+
 	initHeat = ->
 		g = d3.selectAll containerClass
 			.selectAll ".heatmap"
@@ -167,6 +276,27 @@ initStInfo = (containerClass, stName)->
 			.append "g"
 			.attr {
 				"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
+			}
+
+		g
+			.selectAll ".hghm"
+			.data hhdr
+			.enter!
+			.append "rect"
+			.attr {
+				"x": (it, i) -> (it.hour * (hmap.rctw + hmap.rctmg)) - (hmap.rctmg)
+				"y": (it, i) -> 
+					w = ((it.week - 1) + 7) % 7 # start with monday as 0 sunday as 1
+					(((if w > 4 then 0.5 else 0) + w) * (hmap.rctw + hmap.rctmg))  - (hmap.rctmg)
+				"class": (it, i) -> "hghm hghm-" + it.wh
+				"width": hmap.rctw + hmap.rctmg * 2
+				"height": hmap.rctw + hmap.rctmg * 2
+				"rx": 2
+				"ry": 2
+			}
+			.style {
+				"fill": "white"
+				"display": "none"
 			}
 
 		g
@@ -185,39 +315,38 @@ initStInfo = (containerClass, stName)->
 			}
 			.style {
 				"fill": (it, i) -> ggl.colorscl ggl.whdata[ggl.crrview][stName][it.wh]
-				# "orange"
 			}
 
+	lsstn = d3.entries ggl.whdata["sum"][stName]
+		.filter -> it.key is not "stations"
 
-	# 		setHRect = ->
-	# dt = ggl.whdata[ggl.crrview][ggl.crrstation]
-
-	# for cwh of dt
-	# 	if cwh is not "stations"
-	# 		d3.selectAll ".hm-" + cwh
-	# 			.style {
-	# 				"fill": ggl.colorscl dt[cwh]
-	# 			}
+	cllsstn = slice 23, 45, lsstn
 
 	initHist = ->
 		g = d3.selectAll containerClass
 			.selectAll ".histchart"
 			.attr {
-				width: hmap.w + hmap.mgleft + hmap.mgright
-				height: hmap.h + hmap.mgtop + hmap.mgbottom
+				width: hs.w + hs.mgleft + hs.mgright
+				height: hs.h + hs.mgtop + hs.mgbottom
 			}
 			.append "g"
 			.attr {
-				"transform": "translate(" + hmap.mgleft + "," + hmap.mgtop + ")"
+				"transform": "translate(" + hs.mgleft + "," + hs.mgtop + ")"
 			}
 
-		lsstn = d3.entries ggl.whdata["sum"][stName]
-			.filter -> it.key is not "stations"
-
-		# console.log lsstn
+		g.append "defs"
+			.append "clipPath"
+			.attr {
+				"id": "clip"
+			}
+			.append "rect"
+			.attr {
+				width: hs.w
+				height: hs.h
+			}
 
 		x = d3.scale.linear!
-			.domain [0, lsstn.length]
+			.domain [1, cllsstn.length -  2]
 			.range [0, hs.w]
 
 		histLimit = 10
@@ -231,30 +360,124 @@ initStInfo = (containerClass, stName)->
 			.x (it, i)-> x i
 			.y (it, i)-> y it.value
 
-		g.selectAll "path"
-			.data [lsstn]
+		## horizontal grid line
+		g
+			.selectAll ".gridx"
+			.data y.ticks 3
+			.enter!
+			.append "line"
+			.attr {
+				"clas": "gridx"
+				"x1": 0
+				"x2": hs.w
+				"y1": -> y it
+				"y2": -> y it
+				"fill": "none"
+				"shape-rendering": "crispEdges"
+				"stroke": "orange"
+				"stroke-width": 1px
+			}
+
+		## vertical grid line
+
+		xt = g
+			.selectAll ".gridy"
+			.data ([6 to 18 by 6].map -> (it - 1))
+
+		xt
+			.enter!
+			.append "line"
+			.attr {
+				"clas": "gridy"
+				"x1": -> x it
+				"x2": -> x it
+				"y1": 0
+				"y2": hs.h
+				"fill": "none"
+				"shape-rendering": "crispEdges"
+				"stroke": "orange"
+				"stroke-width": 1px
+			}
+		
+		xt
+			.enter!
+			.append "text"
+			.text -> "+" + (it + 1) + "h"
+			.attr {
+				"x": -> (x it) - 5
+				"y": hs.h + 14
+				"stroke": "orange"
+			}
+			.style {
+				"font-size": "12px"
+			}
+
+		g.append "g"
+			.attr {
+				"clip-path": "url(\#clip)"
+			}
+			.selectAll "path"
+			.data [cllsstn]
 			.enter!
 			.append "path"
 			.attr {
 				"d": -> line it
+				"class": "hist"
 			}
 			.style {
 				"fill": "none"
-				"stroke": "black"
+				"stroke": "white"
 				"stroke-width": 2px
 			}
 
+
+		idx = 0
+		tickHist = ->
+			++idx
+
+			cllsstn.push lsstn[45 + idx]
+
+			d3.selectAll containerClass
+				.selectAll ".hist"
+				.attr {
+					"d": -> line it
+					"transform": null
+				}
+				.transition!
+				.duration 1000
+				.ease "linear"
+				.attr {
+					"transform": "translate(" + (x 0) + ",0)"
+				}
+				.each "end", tickHist
+
+			cllsstn.shift!
+
+
+		tickHist!
+
+	initKPI!
 	initHist!
 	initHeat!
+
+
+
 
 initDiv = ->
 	appndDiv = d3.selectAll ".lsstn"
 		.selectAll ".stn"
-		.data [0 to 5]
+		.data [0 to 1]
+		# .data [0 to 5]
 		.enter!
 		.append "div"
 		.attr {
-			"class": (it, i)-> "stn stn" + i
+			"class": (it, i)-> "panel stn stn" + i
+		}
+
+	appndDiv
+		.append "div"
+		.attr {
+			"class": "kpi"
 		}
 
 	appndDiv
@@ -318,9 +541,9 @@ ggl.flls.map (flname)->
 				initDiv!
 				initStInfo ".stn0", "捷運公館站(2號出口)"
 				initStInfo ".stn1", "師範大學公館校區"
-				initStInfo ".stn2", "八德市場"
-				initStInfo ".stn3", "中崙高中"
-				initStInfo ".stn4", "捷運大安森林公園站"
+				# initStInfo ".stn2", "八德市場"
+				# initStInfo ".stn3", "中崙高中"
+				# initStInfo ".stn4", "捷運大安森林公園站"
 
 # console.log ggl.whdata
 
@@ -350,7 +573,7 @@ map := new google.maps.Map(d3.select '#map' .node!, {
 	# mapTypeControl: false,
 	# scaleControl: false,
 	# draggable: false,
-	# disableDefaultUI: true,
+	disableDefaultUI: true,
 	center: new google.maps.LatLng(25.009985401778902, 121.53998335828783),
 	mapTypeControlOptions:{
 		mapTypeId: [google.maps.MapTypeId.ROADMAP, 'map_style']
@@ -361,8 +584,8 @@ google.maps.event.addListener(map, "bounds_changed", ->
 	bounds = this.getBounds!
 	northEast = bounds.getNorthEast!
 	southWest = bounds.getSouthWest!
-	console.log([(southWest.lng! + northEast.lng!) / 2, (southWest.lat! + northEast.lat!) / 2])
-
+	# console.log([(southWest.lng! + northEast.lng!) / 2, (southWest.lat! + northEast.lat!) / 2])
+	setVCircleColor!
 )
 
 

@@ -52,11 +52,11 @@ build-heat-map = (data, colorscheme, name)->
 	if colorscheme is "RdYlBu"
 		cdmn = [ -10, 10]
 	else if colorscheme is "YlOrRd"
-		cdmn = [0, 20]
-	else if colorscheme is "GnBu"
 		cdmn = [0, -20]
+	else if colorscheme is "GnBu"
+		cdmn = [0, 20]
 
-	color = d3.scale.quantize!domain cdmn .range colorbrewer[colorscheme][9]
+	color = d3.scale.quantize!domain cdmn .range colorbrewer[colorscheme][5]
 	# color = d3.scale.linear!domain cdmn .range colorbrewer[colorscheme][9]
 
 	svg = d3.select "body"
@@ -115,8 +115,8 @@ build-heat-map = (data, colorscheme, name)->
 
 run = -> 
 	datalist.map (stnm)-> 
-		build-heat-map data.pos[stnm], "YlOrRd", stnm
-		build-heat-map data.neg[stnm], "GnBu", stnm
+		build-heat-map data.pos[stnm], "GnBu", stnm
+		build-heat-map data.neg[stnm], "YlOrRd", stnm
 		build-heat-map data.sum[stnm], "RdYlBu", stnm
 
 
